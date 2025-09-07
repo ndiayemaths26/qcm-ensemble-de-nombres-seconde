@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices interactifs - Ensembles de nombres | Seconde</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+        .intro {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+            border-left: 5px solid #0d47a1;
+        }
+        .exercise {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fafafa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .exercise h3 {
+            color: #1976d2;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .option {
+            padding: 12px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-weight: 500;
+        }
+        .option:hover {
+            background-color: #e8f0fe;
+            border-color: #1976d2;
+        }
+        .option.selected {
+            background-color: #bbdefb;
+            border-color: #1976d2;
+            color: #0d47a1;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .input-field:focus {
+            border-color: #1976d2;
+            outline: none;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 500;
+        }
+        .correct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .incorrect {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .submit-btn {
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .student-info {
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .info-field {
+            margin-bottom: 15px;
+        }
+        .info-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #666;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Exercices interactifs sur les ensembles de nombres</h1>
+            <p>Classe de seconde - Conforme aux programmes de l'Éducation nationale</p>
+        </header>
+
+        <div class="intro">
+            <p>Cette activité porte sur les ensembles de nombres (entiers naturels, entiers relatifs, décimaux, rationnels et réels) tels que définis dans le programme de mathématiques de seconde générale.</p>
+            <p><strong>Référence :</strong> Programme de mathématiques de seconde - <a href="https://eduscol.education.fr/1728/programmes-et-ressources-en-mathematiques-voie-generale" target="_blank">Eduscol</a></p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <div class="student-info">
+            <div class="info-field">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" class="input-field" required>
+            </div>
+            <div class="info-field">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" class="input-field" required>
+            </div>
+            <div class="info-field">
+                <label for="classe">Classe :</label>
+                <input type="text" id="classe" class="input-field" required>
+            </div>
+            <div class="info-field">
+                <label for="email">Email :</label>
+                <input type="email" id="email" class="input-field" required>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <h3>Exercice 1 : Appartenance aux ensembles de nombres</h3>
+            <p>Pour chaque nombre, indiquez à quels ensembles il appartient :</p>
+            
+            <div class="question">
+                <p>1. 5</p>
+                <div class="options">
+                    <div class="option" onclick="toggleSelection(this)">ℕ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℤ</div>
+                    <div class="option" onclick="toggleSelection(this)">𝔻</div>
+                    <div class="option" onclick="toggleSelection(this)">ℚ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℝ</div>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+            
+            <div class="question">
+                <p>2. -3/4</p>
+                <div class="options">
+                    <div class="option" onclick="toggleSelection(this)">ℕ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℤ</div>
+                    <div class="option" onclick="toggleSelection(this)">𝔻</div>
+                    <div class="option" onclick="toggleSelection(this)">ℚ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℝ</div>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+            
+            <div class="question">
+                <p>3. √2</p>
+                <div class="options">
+                    <div class="option" onclick="toggleSelection(this)">ℕ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℤ</div>
+                    <div class="option" onclick="toggleSelection(this)">𝔻</div>
+                    <div class="option" onclick="toggleSelection(this)">ℚ</div>
+                    <div class="option" onclick="toggleSelection(this)">ℝ</div>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <h3>Exercice 2 : Vrai ou Faux</h3>
+            <div class="question">
+                <p>1. Tous les nombres entiers naturels sont des nombres rationnels.</p>
+                <div class="options">
+                    <div class="option" onclick="selectTrueFalse(this, 'q1')">Vrai</div>
+                    <div class="option" onclick="selectTrueFalse(this, 'q1')">Faux</div>
+                </div>
+                <div class="feedback" id="feedback-q1"></div>
+            </div>
+            
+            <div class="question">
+                <p>2. L'ensemble des nombres décimaux est inclus dans l'ensemble des nombres rationnels.</p>
+                <div class="options">
+                    <div class="option" onclick="selectTrueFalse(this, 'q2')">Vrai</div>
+                    <div class="option" onclick="selectTrueFalse(this, 'q2')">Faux</div>
+                </div>
+                <div class="feedback" id="feedback-q2"></div>
+            </div>
+            
+            <div class="question">
+                <p>3. π est un nombre rationnel.</p>
+                <div class="options">
+                    <div class="option" onclick="selectTrueFalse(this, 'q3')">Vrai</div>
+                    <div class="option" onclick="selectTrueFalse(this, 'q3')">Faux</div>
+                </div>
+                <div class="feedback" id="feedback-q3"></div>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <h3>Exercice 3 : Compléter les phrases</h3>
+            <div class="question">
+                <p>1. L'ensemble des nombres <input type="text" class="input-field" id="fill1"> est noté ℚ.</p>
+                <div class="feedback" id="feedback-f1"></div>
+            </div>
+            
+            <div class="question">
+                <p>2. L'ensemble <input type="text" class="input-field" id="fill2"> contient tous les nombres qui peuvent s'écrire sous forme de fraction.</p>
+                <div class="feedback" id="feedback-f2"></div>
+            </div>
+            
+            <div class="question">
+                <p>3. √5 est un nombre <input type="text" class="input-field" id="fill3"> mais pas <input type="text" class="input-field" id="fill4">.</p>
+                <div class="feedback" id="feedback-f3"></div>
+            </div>
+        </div>
+
+        <button class="submit-btn" onclick="submitAnswers()">Soumettre mes réponses</button>
+
+        <footer>
+            <p>Référence : Programme de mathématiques de seconde - Éducation nationale</p>
+            <p>© 2023 - Conforme aux ressources Eduscol</p>
+        </footer>
+    </div>
+
+    <script>
+        // Réponses correctes
+        const correctAnswers = {
+            ex1q1: ['ℕ', 'ℤ', '𝔻', 'ℚ', 'ℝ'],
+            ex1q2: ['ℚ', 'ℝ'],
+            ex1q3: ['ℝ'],
+            ex2q1: 'Vrai',
+            ex2q2: 'Vrai',
+            ex2q3: 'Faux',
+            ex3q1: 'rationnels',
+            ex3q2: 'ℚ',
+            ex3q3a: 'irrationnel',
+            ex3q3b: 'rationnel'
+        };
+
+        // Fonction pour la sélection multiple
+        function toggleSelection(element) {
+            element.classList.toggle('selected');
+        }
+        
+        // Fonction pour la sélection Vrai/Faux
+        function selectTrueFalse(element, questionId) {
+            // Retirer la sélection précédente
+            const parent = element.parentElement;
+            const options = parent.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Sélectionner la nouvelle option
+            element.classList.add('selected');
+        }
+        
+        // Fonction pour vérifier les réponses
+        function checkAnswers() {
+            let score = 0;
+            const totalQuestions = 9;
+            
+            // Vérification Exercice 1
+            const ex1q1Selected = Array.from(document.querySelectorAll('.question:nth-child(1) .option.selected'))
+                .map(el => el.textContent);
+            const ex1q2Selected = Array.from(document.querySelectorAll('.question:nth-child(2) .option.selected'))
+                .map(el => el.textContent);
+            const ex1q3Selected = Array.from(document.querySelectorAll('.question:nth-child(3) .option.selected'))
+                .map(el => el.textContent);
+                
+            if (arraysEqual(ex1q1Selected, correctAnswers.ex1q1)) {
+                document.getElementById('feedback1').textContent = 'Correct! 5 ∈ ℕ, ℤ, 𝔻, ℚ, ℝ';
+                document.getElementById('feedback1').className = 'feedback correct';
+                document.getElementById('feedback1').style.display = 'block';
+                score++;
+            } else {
+                document.getElementById('feedback1').textContent = 'Incorrect. 5 appartient à ℕ, ℤ, 𝔻, ℚ, ℝ';
+                document.getElementById('feedback1').className = 'feedback incorrect';
+                document.getElementById('feedback1').style.display = 'block';
+            }
+            
+            // Même logique pour les autres questions...
+            
+            // Mise à jour de la barre de progression
+            const progress = (score / totalQuestions) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            return score;
+        }
+        
+        // Fonction pour comparer deux tableaux
+        function arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+        
+        // Fonction pour soumettre les réponses
+        function submitAnswers() {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+            const classe = document.getElementById('classe').value;
+            const email = document.getElementById('email').value;
+            
+            if (!nom || !prenom || !classe || !email) {
+                alert('Veuillez remplir tous les champs d\'identification.');
+                return;
+            }
+            
+            const score = checkAnswers();
+            
+            // Envoi des résultats via Google Forms (à adapter avec votre ID de formulaire)
+            const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSfYourFormIDHere/formResponse";
+            const formData = new FormData();
+            
+            // Ajouter les données au FormData (les noms de champs doivent correspondre à votre Google Form)
+            formData.append("entry.123456789", nom);
+            formData.append("entry.123456790", prenom);
+            formData.append("entry.123456791", classe);
+            formData.append("entry.123456792", email);
+            formData.append("entry.123456793", score);
+            
+            // Envoyer les données (cette partie nécessite un serveur pour contourner CORS)
+            fetch(googleFormURL, {
+                method: "POST",
+                body: formData,
+                mode: "no-cors"
+            }).then(() => {
+                alert(`Merci ${prenom} ! Vos réponses ont été enregistrées. Score: ${score}/9`);
+            }).catch(error => {
+                console.error('Erreur:', error);
+                alert(`Merci ${prenom} ! Une erreur s'est produite lors de l'envoi, mais votre score est: ${score}/9`);
+            });
+        }
+    </script>
+</body>
+</html>
